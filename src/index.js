@@ -1,26 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import MyCalendar from './Calendar/Calendar';
 import DashboardLayoutBranding from './Calendar/Dashboard';
-import { BrowserRouter as Router, Route, Routes, RouterProvider, createBrowserRouter } from "react-router-dom";
-
-
-export default function CalendarAppRouter() {
-  return (
-    <Router>
-      <Routes>
-        {/*<Route path={'/'} element={<MyCalendar/>}/>  */}
-        <Route path={'/'} element={<DashboardLayoutBranding />} />
-      </Routes>
-    </Router>
-  )
-}
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import MyProfilePage from './Calendar/MyProfilePage';
+import ActivitiesPage from './Calendar/ActivitiesPage';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-  <CalendarAppRouter />
+  <Router>
+    <Routes>
+      <Route path="/" element={<DashboardLayoutBranding />} />
+      <Route path="/myProfile" element={<MyProfilePage />} />
+      <Route path="/activities" element={<ActivitiesPage />} />
+    </Routes>
+  </Router>
 );
+
 reportWebVitals();

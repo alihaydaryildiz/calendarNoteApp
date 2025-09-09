@@ -6,7 +6,7 @@ import parse from 'date-fns/parse';
 import startOfWeek from 'date-fns/startOfWeek';
 import getDay from 'date-fns/getDay';
 import tr from 'date-fns/locale/tr';
-import { Modal, Box, TextField, Button, Stack, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Grid } from '@mui/material';
+import { Modal, Box, TextField, Button, Stack, Typography, Dialog, DialogTitle, DialogContent, DialogActions, Grid, colors } from '@mui/material';
 const locales = {
   'tr-TR': tr,
 };
@@ -73,6 +73,7 @@ const MyCalendar = () => {
     formData.append('title', title);
     formData.append('start', start);
     formData.append('end', end);
+    formData.append('fileEvents', fileEvents);
     if (file) formData.append('attachment', file);
     const response = await fetch('http://127.0.0.1:8000/api/endpoint/save-event-file', {
       method: 'POST',
@@ -131,7 +132,7 @@ const MyCalendar = () => {
         onSelectEvent={handleEventDelete}
         views={['month', 'week', 'day', 'agenda']}
         defaultView="month"
-        style={{ height: '80vh' }}
+        style={{ height: '85vh' }}
       />
 
       {showModal && (

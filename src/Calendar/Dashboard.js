@@ -8,26 +8,26 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { AppProvider } from '@toolpad/core/AppProvider';
 import { DashboardLayout } from '@toolpad/core/DashboardLayout';
-import { DemoProvider, useDemoRouter } from '@toolpad/core/internal';
+import { DemoProvider } from '@toolpad/core/internal';
 import MyCalendar from './Calendar';
-
-
+import ActivitiesPage from './ActivitiesPage';
+import MyProfilePage from './MyProfilePage';
+import { Link, Routes, Route, useLocation } from 'react-router-dom';
 
 const NAVIGATION = [
     {
-
-        segment: 'dashboard',
+        segment: '/',
         title: 'Dashboard',
         icon: <DashboardIcon />,
     },
     {
-        segment: 'orders',
-        title: 'Orders',
-        icon: <ShoppingCartIcon color='' />,
+        segment: '/activities',
+        title: 'Activities',
+        icon: <ShoppingCartIcon />,
     },
     {
-        segment: 'reports',
-        title: 'Reports',
+        segment: '/myProfile',
+        title: 'My Profile',
         icon: <BarChartIcon />,
     },
 ];
@@ -48,57 +48,64 @@ const demoTheme = createTheme({
     },
 });
 
-function DemoPageContent({ pathname }) {
+function CustomNavigation() {
+    const location = useLocation();
     return (
         <Box>
-            <Typography variant="h6">Takvim</Typography>
-               <MyCalendar />
+            {NAVIGATION.map((item) => (
+                <Box key={item.segment} sx={{ mb: 2 }}>
+                    <Link to={item.segment}
+                        style={{
+                            textDecoration: 'none',
+                            color: location.pathname === item.segment ? 'black' : 'black',
+                            display: 'flex',
+                            alignItems: 'center',
+                            padding: '10px',
+                        }}>
+                        {item.icon}
+                        <Typography variant="body1" component="span" sx={{ ml: 1 }}>
+                            {item.title}
+                        </Typography>
+                    </Link>
+                </Box>
+            ))}
         </Box>
     );
 }
 
-DemoPageContent.propTypes = {
-    pathname: PropTypes.string.isRequired,
-};
-
 function DashboardLayoutBranding(props) {
     const { window } = props;
-
-    const router = useDemoRouter('/dashboard');
-
-    // Remove this const when copying and pasting into your project.
     const demoWindow = window !== undefined ? window() : undefined;
 
+
     return (
-        // Remove this provider when copying and pasting into your project.
         <DemoProvider window={demoWindow}>
-            {/* preview-start */}
             <AppProvider
-                navigation={NAVIGATION}
                 branding={{
                     logo: <img />,
                     title: '',
-
                 }}
-                router={router}
                 theme={demoTheme}
                 window={demoWindow}
             >
-                <DashboardLayout>
-                    <DemoPageContent pathname={router.pathname} />
-                </DashboardLayout>
+                <Box sx={{ display: 'flex' }}>
+                    <Box sx={{ minWidth: 200, borderRight: '1px solid #eee', p: 2 }}>
+                        <CustomNavigation />
+                    </Box>
+                    <Box sx={{ flex: 1, p: 2 }}>
+                        <Routes>
+                            <Route path="/" element={<MyCalendar />} />
+                            <Route path="/activities" element={<ActivitiesPage />} />
+                            <Route path="/myProfile" element={<MyProfilePage />} />
+                        </Routes>
+                    </Box>
+                </Box>
             </AppProvider>
-            {/* preview-end */}
         </DemoProvider>
     );
 }
 
 DashboardLayoutBranding.propTypes = {
-    /**
-     * Injected by the documentation to work in an iframe.
-     * Remove this when copying and pasting into your project.
-     */
     window: PropTypes.func,
 };
-
 export default DashboardLayoutBranding;

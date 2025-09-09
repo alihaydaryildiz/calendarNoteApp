@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-function Activity() {
+function ActivitiesPage() {
   const [events, setEvents] = useState([]);
   const [title, setTitle] = useState("");
   const [date, setDate] = useState("");
@@ -61,4 +61,4 @@ function Activity() {
   );
 }
 
-export default Activity;
+export default ActivitiesPage;
